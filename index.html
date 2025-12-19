@@ -172,7 +172,14 @@
     .sidebar-footer strong { color: var(--accent); font-weight: 500; }
     .content { padding: 18px 20px 22px; overflow: auto; position: relative; }
     .table-section { display: none; animation: fadeIn 0.16s ease-out; }
-    .table-section.active { display: block; }
+    .table-section.active {
+}
+
+body.global-mode .table-section {
+    display: block !important;
+}
+
+.table-section.active { display: block; }
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(3px); }
         to { opacity: 1; transform: translateY(0); }
@@ -3538,5 +3545,71 @@ window.addEventListener('DOMContentLoaded', function() {
     Developed by Ph. Talal Alenezi
 </div>
 
+
+<script>
+document.querySelectorAll('.nav-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        document.body.classList.remove('global-mode');
+        var target = this.getAttribute('data-target');
+        document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');});
+        document.querySelectorAll('.table-section').forEach(function(sec){sec.classList.remove('active');});
+        this.classList.add('active');
+        var sec = document.getElementById(target);
+        if (sec) { sec.classList.add('active'); }
+    });
+});
+
+function filterTable(input, tableId) {
+    var filter = input.value.toLowerCase().trim();
+    var table = document.getElementById(tableId);
+    if (!table) return;
+    var rows = table.querySelectorAll('tbody tr');
+    var visibleCount = 0;
+    rows.forEach(function(row) {
+        var text = row.innerText.toLowerCase();
+        if (!filter || text.indexOf(filter) !== -1) {
+            row.style.display = '';
+            visibleCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    var counter = document.getElementById(tableId + '-count');
+    if (counter) counter.textContent = visibleCount;
+}
+
+var globalInput = document.getElementById('global-search');
+if (globalInput) {
+    globalInput.addEventListener('input', function() {
+        var query = this.value.toLowerCase().trim();
+        var hasQuery = query.length > 0;
+        if (hasQuery) {
+            document.body.classList.add('global-mode');
+        } else {
+            document.body.classList.remove('global-mode');
+        }
+        document.querySelectorAll('table').forEach(function(table) {
+            var rows = table.querySelectorAll('tbody tr');
+            var visibleCount = 0;
+            rows.forEach(function(row) {
+                var match = row.innerText.toLowerCase().includes(query);
+                row.style.display = match ? '' : 'none';
+                if (match) visibleCount++;
+            });
+            var counter = document.getElementById(table.id + '-count');
+            if (counter) counter.textContent = visibleCount;
+        });
+    });
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('table').forEach(function(table) {
+        var rows = table.querySelectorAll('tbody tr');
+        var counter = document.getElementById(table.id + '-count');
+        if (counter) counter.textContent = rows.length;
+    });
+});
+</script>
 </body>
 </html>
+
