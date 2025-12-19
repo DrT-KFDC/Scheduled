@@ -103,6 +103,7 @@
     }
     .global-search input::placeholder { color: var(--text-muted); }
     .scope-pill {
+        margin-right: 4px;
         font-size: 11px;
         padding: 3px 10px;
         border-radius: 999px;
@@ -247,7 +248,7 @@ body.global-mode .table-section {
     }
     table { width: 100%; border-collapse: collapse; font-size: 12px; }
     thead { position: sticky; top: 0; z-index: 5; }
-    thead tr { background: linear-gradient(to right, rgba(15,23,42,0.98), rgba(15,23,42,0.98)); }
+    thead tr { background: linear-gradient(to right, #020617, #0b1120); }
     th, td {
         padding: 7px 10px;
         border-bottom: 1px solid rgba(30, 41, 59, 0.9);
@@ -263,22 +264,30 @@ body.global-mode .table-section {
         border-bottom: 1px solid rgba(148,163,184,0.6);
         background: linear-gradient(to right, rgba(15,23,42,0.98), rgba(15,23,42,0.96));
     }
-    tbody tr:nth-child(even) { background-color: rgba(15,23,42,0.92); }
-    tbody tr:nth-child(odd) { background-color: rgba(15,23,42,0.96); }
+    tbody tr:nth-child(even) { background-color: #020617; }
+    tbody tr:nth-child(odd) { background-color: #020617; }
+    tbody tr:nth-child(4n+1) { background-color: #02091f; }
+    tbody tr:nth-child(4n+3) { background-color: #020b27; }
     tbody tr:hover {
-        background: radial-gradient(circle at left, rgba(56,189,248,0.18), rgba(15,23,42,0.96));
+        background: radial-gradient(circle at left, rgba(56,189,248,0.35), rgba(15,23,42,0.98));
     }
     td.code-col {
         white-space: nowrap;
         font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
         font-size: 11px;
-        color: var(--accent);
-        font-weight: 500;
+        color: #7dd3fc;
+        font-weight: 600;
     }
     .footer-note {
         padding: 10px 4px 4px;
         font-size: 11px;
         color: var(--text-muted);
+    }
+    .global-status {
+        font-size: 11px;
+        color: #f97373;
+        margin-top: 4px;
+        text-align: right;
     }
 </style>
 </head>
@@ -301,6 +310,7 @@ body.global-mode .table-section {
         <input id="global-search" type="text" placeholder="Search in all tables (code, Arabic name, English name, chemical description)…">
         <span class="scope-pill">Scope: All Groups</span>
     </div>
+    <div id="global-status" class="global-status"></div>
 </header>
 <main>
     <aside class="sidebar">
